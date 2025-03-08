@@ -30,11 +30,13 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     e.preventDefault();
     const targetId = this.getAttribute("href").substring(1);
     const targetElement = document.getElementById(targetId);
-    gsap.to(window, {
-      duration: 1.5,
-      scrollTo: { y: targetElement.offsetTop - 70, autoKill: false },
-      ease: "power2.inOut",
-    });
+    if (targetElement) {
+      gsap.to(window, {
+        duration: 1.5,
+        scrollTo: { y: targetElement.offsetTop - 70, autoKill: false },
+        ease: "power2.inOut",
+      });
+    }
   });
 });
 
@@ -76,6 +78,55 @@ const workshopSwiper = new Swiper(".workshopSwiper", {
     768: { slidesPerView: 2 },
     1024: { slidesPerView: 3 },
   },
+});
+
+// Workshop Image Sliders
+const workshopImageSwiper1 = new Swiper(".workshopImageSwiper1", {
+  navigation: {
+    nextEl: ".workshop-nav-next",
+    prevEl: ".workshop-nav-prev",
+  },
+  loop: true,
+});
+
+const workshopImageSwiper2 = new Swiper(".workshopImageSwiper2", {
+  navigation: {
+    nextEl: ".workshop-nav-next",
+    prevEl: ".workshop-nav-prev",
+  },
+  loop: true,
+});
+
+const workshopImageSwiper3 = new Swiper(".workshopImageSwiper3", {
+  navigation: {
+    nextEl: ".workshop-nav-next",
+    prevEl: ".workshop-nav-prev",
+  },
+  loop: true,
+});
+
+const workshopImageSwiper4 = new Swiper(".workshopImageSwiper4", {
+  navigation: {
+    nextEl: ".workshop-nav-next",
+    prevEl: ".workshop-nav-prev",
+  },
+  loop: true,
+});
+
+const workshopImageSwiper5 = new Swiper(".workshopImageSwiper5", {
+  navigation: {
+    nextEl: ".workshop-nav-next",
+    prevEl: ".workshop-nav-prev",
+  },
+  loop: true,
+});
+
+const workshopImageSwiper6 = new Swiper(".workshopImageSwiper6", {
+  navigation: {
+    nextEl: ".workshop-nav-next",
+    prevEl: ".workshop-nav-prev",
+  },
+  loop: true,
 });
 
 const successSwiper = new Swiper(".successSwiper", {
