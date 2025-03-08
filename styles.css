@@ -1,97 +1,129 @@
-/* General Styles */
+/* Reset and General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: #333;
-    padding-top: 70px;
-    /* Space for fixed navbar */
     overflow-x: hidden;
+    background: #f5f5f5;
+    line-height: 1.6;
 }
 
 .section {
-    padding: 5rem 0;
-    position: relative;
+    padding: 6rem 0;
 }
 
 /* Navbar */
-.navbar {
-    transition: background 0.3s ease;
+#mainNav {
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.navbar.bg-light {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+#mainNav.scrolled {
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.nav-link {
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.nav-link:hover {
-    color: #007bff;
-    transform: scale(1.1);
-}
-
-.nav-link.active {
-    color: #007bff;
-    font-weight: bold;
-    border-bottom: 2px solid #007bff;
-}
-
-/* Home Slider */
-#home {
+/* Hero Section */
+.hero-section {
     position: relative;
-}
-
-.swiper {
-    width: 100%;
     height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.swiper-slide {
-    position: relative;
-}
-
-.swiper-slide img {
+.heroSwiper {
     width: 100%;
     height: 100%;
-    object-fit: cover;
 }
 
-.swiper-caption {
+.hero-slide {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-overlay {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    text-align: center;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 123, 255, 0.2));
+    z-index: 1;
 }
 
-.swiper-caption h2 {
-    font-size: 3rem;
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content h1 {
+    font-size: 4rem;
     font-weight: 700;
+    color: #fff;
 }
 
-.swiper-caption p {
+.hero-content .lead {
     font-size: 1.5rem;
+    color: #ddd;
 }
 
-/* Cards (Team, Training, Internship, Placement, Workshop, Success) */
-.team-card,
+.typing-text {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid #fff;
+    animation: typing 3s steps(30, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: #fff;
+    }
+}
+
+/* Cards */
 .training-card,
 .placement-card,
 .workshop-card,
 .success-card {
-    border: none;
+    border-radius: 12px;
+    overflow: hidden;
     transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
-.team-card:hover,
 .training-card:hover,
 .placement-card:hover,
 .workshop-card:hover,
 .success-card:hover {
     transform: translateY(-10px) scale(1.05);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 123, 255, 0.3);
 }
 
 .card-img-top {
@@ -100,183 +132,137 @@ body {
     transition: transform 0.5s ease;
 }
 
-.team-card:hover .card-img-top,
-.training-card:hover .card-img-top,
-.placement-card:hover .card-img-top,
-.workshop-card:hover .card-img-top,
-.success-card:hover .card-img-top {
+.card:hover .card-img-top {
     transform: scale(1.1);
 }
 
-.placement-card {
-    text-align: center;
-    padding: 2rem;
-}
-
-.placement-card i {
-    color: #007bff;
-}
-
-/* Detail Sections */
-.detail-section {
-    background: #f8f9fa;
-}
-
-/* Workshop and Success Sliders */
-.workshopSwiper .swiper-slide,
-.successSwiper .swiper-slide {
-    display: flex;
-    justify-content: center;
-}
-
-.workshopSwiper .swiper-slide img,
-.successSwiper .swiper-slide img {
-    height: 150px;
-}
-
 /* Buttons */
-.btn-primary,
-.btn-success,
-.btn-secondary {
+.btn {
+    border-radius: 25px;
+    padding: 10px 30px;
     transition: all 0.3s ease;
-    animation: pulse 2s infinite;
 }
 
-.btn-primary:hover,
-.btn-success:hover,
-.btn-secondary:hover {
-    transform: translateY(-5px) scale(1.1);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4);
-    }
-
-    70% {
-        box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
-    }
-
-    100% {
-        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
-    }
-}
-
-/* Down Arrow Button */
-.down-arrow {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #007bff;
-    color: white;
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #00c6ff);
     border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #0099cc);
+    transform: translateY(-3px);
+}
+
+.btn-success {
+    background: linear-gradient(45deg, #28a745, #4caf50);
+}
+
+.btn-success:hover {
+    background: linear-gradient(45deg, #218838, #388e3c);
+    transform: translateY(-3px);
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Swiper */
+.swiper {
+    padding: 2rem 0;
+}
+
+.swiper-slide {
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    cursor: pointer;
-    animation: bounce 1s infinite;
-    transition: background 0.3s ease;
+    align-items: center;
 }
 
-.down-arrow:hover {
-    background: #0056b3;
+.swiper-button-next,
+.swiper-button-prev {
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s ease;
 }
 
-@keyframes bounce {
-
-    0%,
-    100% {
-        transform: translate(-50%, 0);
-    }
-
-    50% {
-        transform: translate(-50%, -5px);
-    }
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background: rgba(0, 123, 255, 0.8);
 }
 
-/* Contact Form */
-#contact form {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    animation: float 3s infinite;
+/* Footer */
+footer {
+    background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+    color: #bbb;
+    position: relative;
+    overflow: hidden;
 }
 
-@keyframes float {
-    0% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
+footer h5 {
+    color: #00c6ff;
+    font-weight: 600;
 }
 
-/* Back to Top Button */
-#back-to-top {
+.map-container {
+    border: 2px solid #00c6ff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+footer .text-primary {
+    color: #00c6ff !important;
+}
+
+footer a.text-info:hover {
+    color: #00c6ff !important;
+}
+
+footer .text-muted {
+    color: #888 !important;
+}
+
+/* Back to Top */
+#backToTop {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    display: none;
-    z-index: 1000;
-    background: #007bff;
-    color: white;
-    border-radius: 50%;
     width: 50px;
     height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    animation: bounce 1s infinite;
-    transition: background 0.3s ease;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
 }
 
-#back-to-top:hover {
-    background: #0056b3;
-}
-
-/* Responsive Adjustments */
+/* Responsive */
 @media (max-width: 768px) {
-    .swiper-caption h2 {
-        font-size: 1.5rem;
+    .hero-content h1 {
+        font-size: 2.5rem;
     }
 
-    .swiper-caption p {
-        font-size: 1rem;
+    .hero-content .lead {
+        font-size: 1.2rem;
     }
 
     .card-img-top {
         height: 150px;
     }
 
-    .swiper {
-        height: 50vh;
-    }
-
-    .down-arrow,
-    #back-to-top {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
+    .col-md-4,
+    .col-md-3 {
+        margin-bottom: 1.5rem;
     }
 }
 
 @media (max-width: 576px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
 
-    .col-md-4,
-    .col-md-3 {
-        margin-bottom: 1.5rem;
+    .hero-content .lead {
+        font-size: 1rem;
     }
 }

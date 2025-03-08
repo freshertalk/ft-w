@@ -1,174 +1,176 @@
-// Initialize AOS (Animate On Scroll)
+// Initialize AOS
 AOS.init({
-  duration: 1000, // Animation duration in milliseconds
-  once: true, // Animations trigger only once
-  easing: "ease-in-out", // Smooth easing for animations
+  duration: 1200,
+  once: true,
+  easing: "ease-in-out-cubic",
 });
 
-// Smooth Scrolling for Navigation Links with Active State
-document.querySelectorAll(".nav-link").forEach((anchor) => {
+// GSAP Timeline for Hero Animation
+gsap.from(".hero-content", {
+  opacity: 0,
+  y: 50,
+  duration: 1.5,
+  delay: 0.5,
+  ease: "power3.out",
+});
+
+// Navbar Scroll Effect
+window.addEventListener("scroll", () => {
+  const nav = document.getElementById("mainNav");
+  if (window.scrollY > 50) {
+    nav.classList.add("scrolled");
+  } else {
+    nav.classList.remove("scrolled");
+  }
+});
+
+// Smooth Scroll with GSAP
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
     e.preventDefault();
-
-    // Remove active class from all links
-    document.querySelectorAll(".nav-link").forEach((link) => {
-      link.classList.remove("active");
-    });
-
-    // Add active class to the clicked link
-    this.classList.add("active");
-
     const targetId = this.getAttribute("href").substring(1);
     const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-      window.scrollTo({
-        top: targetElement.offsetTop - 70, // Adjust for fixed navbar height
-        behavior: "smooth",
-      });
-    }
+    gsap.to(window, {
+      duration: 1.5,
+      scrollTo: { y: targetElement.offsetTop - 70, autoKill: false },
+      ease: "power2.inOut",
+    });
   });
 });
 
-// Update active navigation link based on scroll position
-window.addEventListener("scroll", () => {
-  const fromTop = window.scrollY + 70; // Offset for navbar
-  document.querySelectorAll(".section").forEach((section) => {
-    if (
-      section.offsetTop <= fromTop &&
-      section.offsetTop + section.offsetHeight > fromTop
-    ) {
-      const id = section.getAttribute("id");
-      document.querySelectorAll(".nav-link").forEach((link) => {
-        link.classList.remove("active");
-        if (link.getAttribute("href") === `#${id}`) {
-          link.classList.add("active");
-        }
-      });
-    }
-  });
-});
-
-// Down Arrow Button Functionality
-document.querySelectorAll(".down-arrow").forEach((button) => {
-  button.addEventListener("click", () => {
-    const nextSectionId = button.getAttribute("data-next-section");
-    const nextSection = document.getElementById(nextSectionId);
-    if (nextSection) {
-      window.scrollTo({
-        top: nextSection.offsetTop - 70,
-        behavior: "smooth",
-      });
-    }
-  });
-});
-
-// Back to Top Button
-const backToTop = document.getElementById("back-to-top");
+// Back to Top
+const backToTop = document.getElementById("backToTop");
 window.addEventListener("scroll", () => {
   if (window.scrollY > 300) {
-    backToTop.style.display = "flex"; // Show button after scrolling 300px
+    gsap.to(backToTop, { duration: 0.5, opacity: 1, display: "block" });
   } else {
-    backToTop.style.display = "none"; // Hide button at top
+    gsap.to(backToTop, { duration: 0.5, opacity: 0, display: "none" });
   }
 });
 
 backToTop.addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
+  gsap.to(window, { duration: 1.5, scrollTo: 0, ease: "power2.inOut" });
 });
 
-// Explore Buttons Functionality (e.g., Training/Internship Details)
-document.querySelectorAll(".explore-btn").forEach((button) => {
-  button.addEventListener("click", () => {
-    const targetId = button.getAttribute("data-target");
-    const targetSection = document.getElementById(targetId);
-    const mainSectionId = button.closest(".section").id;
-    const mainSection = document.getElementById(mainSectionId);
+// Swiper Initializations
+const heroSwiper = new Swiper(".heroSwiper", {
+  effect: "fade",
+  autoplay: { delay: 5000, disableOnInteraction: false },
+  loop: true,
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+});
 
-    if (targetSection && mainSection) {
-      mainSection.style.display = "none"; // Hide main section
-      targetSection.style.display = "block"; // Show detail section
-      window.scrollTo({
-        top: targetSection.offsetTop - 70,
-        behavior: "smooth",
-      });
+const workshopSwiper = new Swiper(".workshopSwiper", {
+  slidesPerView: 3,
+  spaceBetween: 30,
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+  loop: true,
+  breakpoints: {
+    640: { slidesPerView: 1 },
+    768: { slidesPerView: 2 },
+    1024: { slidesPerView: 3 },
+  },
+});
+
+const successSwiper = new Swiper(".successSwiper", {
+  slidesPerView: 3,
+  spaceBetween: 30,
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+  loop: true,
+  breakpoints: {
+    640: { slidesPerView: 1 },
+    768: { slidesPerView: 2 },
+    1024: { slidesPerView: 3 },
+  },
+});
+
+// Card Hover Animation
+gsap.utils
+  .toArray(".training-card, .placement-card, .workshop-card, .success-card")
+  .forEach((card) => {
+    card.addEventListener("mouseenter", () =>
+      gsap.to(card, {
+        scale: 1.05,
+        boxShadow: "0 10px 30px rgba(0, 123, 255, 0.3)",
+        duration: 0.5,
+      })
+    );
+    card.addEventListener("mouseleave", () =>
+      gsap.to(card, {
+        scale: 1,
+        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+        duration: 0.5,
+      })
+    );
+  });
+
+// Typing Animation for Hero Slider
+const typingElements = document.querySelectorAll(".typing-text");
+typingElements.forEach((element, index) => {
+  const text = element.textContent;
+  element.textContent = "";
+  let charIndex = 0;
+
+  function type() {
+    if (charIndex < text.length) {
+      element.textContent += text.charAt(charIndex);
+      charIndex++;
+      setTimeout(type, 100);
+    } else {
+      setTimeout(() => {
+        element.textContent = "";
+        charIndex = 0;
+        type();
+      }, 2000); // Wait 2 seconds before restarting
     }
-  });
+  }
+  type();
 });
 
-// Close Buttons Functionality (Return to Main Section)
-document.querySelectorAll(".close-btn").forEach((button) => {
+// FAQ Animation with GSAP
+document.querySelectorAll(".accordion-button").forEach((button) => {
   button.addEventListener("click", () => {
-    const mainSectionId = button.getAttribute("data-target");
-    const mainSection = document.getElementById(mainSectionId);
-    const detailSection = button.closest(".detail-section");
-
-    if (mainSection && detailSection) {
-      detailSection.style.display = "none"; // Hide detail section
-      mainSection.style.display = "block"; // Show main section
-      window.scrollTo({
-        top: mainSection.offsetTop - 70,
-        behavior: "smooth",
+    const collapse = document.querySelector(
+      button.getAttribute("data-bs-target")
+    );
+    if (collapse.classList.contains("show")) {
+      gsap.to(collapse, {
+        height: 0,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.in",
+      });
+    } else {
+      gsap.from(collapse, {
+        height: 0,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.out",
       });
     }
   });
 });
 
 // Contact Form Submission
-document.getElementById("contactForm").addEventListener("submit", function (e) {
+document.getElementById("contactForm").addEventListener("submit", (e) => {
   e.preventDefault();
-  alert("Thank you for contacting us! We will get back to you soon.");
-  this.reset(); // Reset form fields
-});
-
-// Initialize Swiper Sliders
-// Home Slider
-const homeSwiper = new Swiper(".mySwiper", {
-  loop: true,
-  autoplay: {
-    delay: 5000, // 5-second delay between slides
-    disableOnInteraction: false,
-  },
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
-});
-
-// Workshop Slider
-const workshopSwiper = new Swiper(".workshopSwiper", {
-  slidesPerView: 1,
-  spaceBetween: 10,
-  loop: true,
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-  breakpoints: {
-    640: { slidesPerView: 2 },
-    768: { slidesPerView: 3 },
-    1024: { slidesPerView: 4 },
-  },
-});
-
-// Success Stories Slider
-const successSwiper = new Swiper(".successSwiper", {
-  slidesPerView: 1,
-  spaceBetween: 10,
-  loop: true,
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-  breakpoints: {
-    640: { slidesPerView: 2 },
-    768: { slidesPerView: 3 },
-    1024: { slidesPerView: 4 },
-  },
+  gsap.to("#contactForm", {
+    scale: 0.95,
+    duration: 0.2,
+    yoyo: true,
+    repeat: 1,
+    onComplete: () => {
+      alert("Message sent successfully! We will get back to you soon.");
+      e.target.reset();
+    },
+  });
 });
